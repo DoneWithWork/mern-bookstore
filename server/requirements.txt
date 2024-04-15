@@ -1,0 +1,24 @@
+bookstore app
+1. Users can view bookstore items
+2. Users can add items to cart
+3. Users can add new books to the bookstore
+4. New categories for books can be added eg: Fiction, Horror, etc
+5. Users can view their past orders
+6. Users can remove items from cart
+7. Users can search for books
+8. Users can view books by category
+9. Users can update books
+10. Users can delete books
+* only admin can add books to the bookstore
+* users can register and login to the app
+
+
+
+admins
+- can add books
+- can update books
+- can delete books
+- remove comments
+- remove users
+
+roles based authentication
