@@ -15,16 +15,17 @@ export const AddAuthor = asyncHandler(async (req, res) => {
   const author = new AuthorModel({
     name,
     description,
-    books,
     date_of_birth,
     date_of_death,
   });
+  console.log(author);
   await author.save();
   res.status(201).json({ message: "Author added successfully", success: true });
 });
 export const GetAuthors = asyncHandler(async (req, res) => {
   const authors = await AuthorModel.find();
-  res.status(200).json({ authors: authors._doc, success: true });
+  const authorsList = authors.map((author) => author._doc);
+  res.status(200).json({ authors: authorsList, success: true });
 });
 
 /**
@@ -33,14 +34,18 @@ export const GetAuthors = asyncHandler(async (req, res) => {
  *
  */
 export const GetAuthor = asyncHandler(async (req, res) => {
-  const id = req.id;
+  const id = req.params.id;
   const author = await AuthorModel.findById(id);
+
+  console.log("hi");
+  console.log(id);
+  console.log(author);
   if (!author) {
     return res
       .status(404)
       .json({ message: "Author not found", success: false });
   }
-  res.status(200).json({ author: author._doc, success: true });
+  res.status(200).json({ author, success: true });
 });
 
 /**
@@ -51,7 +56,7 @@ export const GetAuthor = asyncHandler(async (req, res) => {
 export const UpdateAuthor = asyncHandler(async (req, res) => {
   const data = matchedData(req);
   const { name, description, date_of_birth, date_of_death } = data;
-  const id = req.id;
+  const id = req.params.id;
   const author = await AuthorModel.findByIdAndUpdate(id, data, { new: true });
   if (!author) {
     return res

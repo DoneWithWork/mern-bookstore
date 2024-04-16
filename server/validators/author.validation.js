@@ -18,8 +18,14 @@ const authorValidationRules = () => {
       .escape()
       .isLength({ min: 3 })
       .withMessage("Description must be at least 3 characters long"),
-    body("date_of_birth").notEmpty().isDate(),
-    body("date_of_death").notEmpty().isDate(),
+    body("date_of_birth")
+      .notEmpty()
+      .isISO8601()
+      .withMessage("Date of birth must be in ISO format (YYYY-MM-DD)"),
+    body("date_of_death")
+      .optional()
+      .isISO8601()
+      .withMessage("Date of death must be in ISO format (YYYY-MM-DD)"),
   ];
 };
 
@@ -28,11 +34,7 @@ const validateAuthor = (req, res, next) => {
   if (errors.isEmpty()) {
     return next();
   }
-  const extractedErrors = [];
-  errors.array().map((err) => extractedErrors.push({ [err.param]: err.msg }));
 
-  return res.status(422).json({
-    errors: extractedErrors,
-  });
+  return res.status(422).json({ errors: errors.array() });
 };
 export { authorValidationRules, validateAuthor };

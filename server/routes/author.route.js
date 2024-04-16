@@ -11,7 +11,7 @@ import {
 } from "../controllers/author.controller.js";
 const AuthorRouter = express.Router();
 import {
-  validateAuthorInput,
+  authorValidationRules,
   validateAuthor,
 } from "../validators/author.validation.js";
 
@@ -23,22 +23,27 @@ import {
  */
 AuthorRouter.post(
   "/addauthor",
-  validateAuthorInput(),
+  authorValidationRules(),
   validateAuthor,
   CheckAuth,
   CheckAdmin,
   AddAuthor
 );
 AuthorRouter.get("/getauthors", GetAuthors); //get all authors
-AuthorRouter.get("/author/:id", GetAuthor); //get individual author
+AuthorRouter.get("/:id", GetAuthor); //get individual author
 AuthorRouter.post(
-  "/author/:id/update",
-  validateAuthorInput(),
+  "/:id/update",
+  authorValidationRules(),
   validateAuthor,
   CheckAuth,
   CheckAdmin,
   UpdateAuthor
 );
-AuthorRouter.post("/author/:id/delete");
+AuthorRouter.post(
+  "/:id/delete",
+
+  CheckAuth,
+  CheckAdmin
+);
 
 export default AuthorRouter;
