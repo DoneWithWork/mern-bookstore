@@ -10,32 +10,21 @@ import {
   UpdateAuthor,
 } from "../controllers/author.controller.js";
 const AuthorRouter = express.Router();
+import {
+  validateAuthorInput,
+  validateAuthor,
+} from "../validators/author.validation.js";
 
-const validateAuthorInput = (req, res, next) => {
-  body("name")
-    .notEmpty()
-    .escape()
-    .isLength({ min: 3 })
-    .withMessage("Name must be at least 3 characters long")
-    .custom(async (value) => {
-      const author = await AuthorModel.findOne({ name: value });
-      if (author) {
-        throw new Error("Author already exists");
-      }
-    }),
-    body("description")
-      .notEmpty()
-      .escape()
-      .isLength({ min: 3 })
-      .withMessage("Description must be at least 3 characters long"),
-    body("date_of_birth").notEmpty().isDate(),
-    body("date_of_death").notEmpty().isDate();
-  next();
-};
+/**
+ * @description Add an author
+ * @body name, description, date_of_birth, date_of_death
+ * @middleware CheckAuth, CheckAdmin
+ * @POST /author/addauthor
+ */
 AuthorRouter.post(
   "/addauthor",
-
   validateAuthorInput(),
+  validateAuthor,
   CheckAuth,
   CheckAdmin,
   AddAuthor
@@ -45,6 +34,7 @@ AuthorRouter.get("/author/:id", GetAuthor); //get individual author
 AuthorRouter.post(
   "/author/:id/update",
   validateAuthorInput(),
+  validateAuthor,
   CheckAuth,
   CheckAdmin,
   UpdateAuthor
