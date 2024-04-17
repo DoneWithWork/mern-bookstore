@@ -11,7 +11,7 @@ const Register = asyncHandler(async (req, res) => {
     username,
     email,
     password: hashedPassword,
-    role: "user",
+    role: "admin",
   });
   await user.save();
   res.status(201).json({ message: "User created", suceess: true });

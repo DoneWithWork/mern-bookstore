@@ -6,6 +6,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import UserRouter from "./routes/user.route.js";
 import AuthorRouter from "./routes/author.route.js";
+import GenreRouter from "./routes/genre.route.js";
 dotenv.config();
 
 const MONGO_URI = process.env.MONGO_URI;
@@ -22,6 +23,7 @@ app.use(
 );
 app.use("/user", UserRouter);
 app.use("/author", AuthorRouter);
+app.use("/genre", GenreRouter);
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res

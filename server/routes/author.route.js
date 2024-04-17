@@ -5,6 +5,7 @@ import CheckAdmin from "../middleware/admin.middleware.js";
 import CheckAuth from "../middleware/auth.middleware.js";
 import {
   AddAuthor,
+  DeleteAuthor,
   GetAuthor,
   GetAuthors,
   UpdateAuthor,
@@ -43,7 +44,8 @@ AuthorRouter.post(
   "/:id/delete",
 
   CheckAuth,
-  CheckAdmin
+  CheckAdmin,
+  DeleteAuthor
 );
 
 export default AuthorRouter;
